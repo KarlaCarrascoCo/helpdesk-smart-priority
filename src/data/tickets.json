@@ -1,18 +1,5 @@
 [
   {
-    "id": 1,
-    "nombreSolicitante": "Karla Carrasco",
-    "correo": "karla@gmail.com",
-    "categoria": "red",
-    "descripcion": "Internet caído",
-    "impacto": "alto",
-    "urgencia": "alta",
-    "tiempoEstimado": 5,
-    "estado": "pendiente",
-    "prioridad": "Crítica",
-    "fechaCreacion": "2026-05-24T23:03:03.446Z"
-  },
-  {
     "id": 2,
     "nombreSolicitante": "Pablo Marmol",
     "correo": "pablo@correo.cl",
@@ -27,15 +14,15 @@
   },
   {
     "id": 3,
-    "nombreSolicitante": "Marley Bob",
-    "correo": "marley@correo.cl",
-    "categoria": "impresora",
-    "descripcion": "sin tinta",
+    "nombreSolicitante": "Soporte Oficina",
+    "correo": "soporte@empresa.cl",
+    "categoria": "hardware",
+    "descripcion": "Equipo no enciende",
     "impacto": "alto",
     "urgencia": "alta",
-    "tiempoEstimado": 1,
+    "tiempoEstimado": 2.5,
     "estado": "pendiente",
     "prioridad": "Alta",
-    "fechaCreacion": "2026-05-24T23:20:53.355Z"
+    "fechaCreacion": "2026-05-25T01:34:58.329Z"
   }
 ]

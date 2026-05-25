@@ -1,172 +1,455 @@
-const formulario = document.getElementById(
-    "ticketForm"
-);
+const API_URL = "http://localhost:3000";
 
-const listaTickets = document.getElementById(
-    "listaTickets"
-);
+let token = "";
 
-// COLOR PRIORIDAD
-function obtenerClasePrioridad(prioridad) {
+// ======================
+// LOGIN
+// ======================
 
-    if (prioridad === "Baja") {
-        return "prioridad-baja";
-    }
+document
+    .getElementById("btnLogin")
+    .addEventListener("click", login);
 
-    if (prioridad === "Media") {
-        return "prioridad-media";
-    }
+async function login() {
 
-    if (prioridad === "Alta") {
-        return "prioridad-alta";
-    }
+    const usuario =
+        document.getElementById("usuario").value;
 
-    return "prioridad-critica";
-}
+    const password =
+        document.getElementById("password").value;
 
-// FORMATEAR FECHA
-function formatearFecha(fecha) {
+    const mensaje =
+        document.getElementById("mensajeLogin");
 
-    return new Date(fecha).toLocaleString(
-        "es-CL"
-    );
-}
+    try {
 
-// CARGAR TICKETS
-async function cargarTickets() {
-
-    const response = await fetch(
-        "http://localhost:3000/tickets"
-    );
-
-    const tickets = await response.json();
-
-    listaTickets.innerHTML = "";
-
-    tickets.forEach(ticket => {
-
-        const clasePrioridad =
-            obtenerClasePrioridad(
-                ticket.prioridad
-            );
-
-        listaTickets.innerHTML += `
-
-            <div class="ticket ${clasePrioridad}">
-
-                <h3>
-                    ${ticket.nombreSolicitante}
-                </h3>
-
-                <p>
-                    <strong>Categoría:</strong>
-                    ${ticket.categoria}
-                </p>
-
-                <p>
-                    <strong>Estado:</strong>
-                    ${ticket.estado}
-                </p>
-
-                <p>
-                    <strong>Prioridad:</strong>
-                    ${ticket.prioridad}
-                </p>
-
-                <p>
-                    <strong>Fecha ingreso:</strong>
-                    ${formatearFecha(
-                        ticket.fechaCreacion
-                    )}
-                </p>
-
-            </div>
-        `;
-    });
-}
-
-// CREAR TICKET
-formulario.addEventListener(
-    "submit",
-    async (e) => {
-
-        e.preventDefault();
-
-        const horas = Number(
-            document.getElementById(
-                "horas"
-            ).value
-        );
-
-        const minutos = Number(
-            document.getElementById(
-                "minutos"
-            ).value
-        );
-
-        const tiempoEstimado =
-            horas + (minutos / 60);
-
-        const nuevoTicket = {
-
-            nombreSolicitante:
-                document.getElementById(
-                    "nombreSolicitante"
-                ).value,
-
-            correo:
-                document.getElementById(
-                    "correo"
-                ).value,
-
-            categoria:
-                document.getElementById(
-                    "categoria"
-                ).value,
-
-            descripcion:
-                document.getElementById(
-                    "descripcion"
-                ).value,
-
-            impacto:
-                document.getElementById(
-                    "impacto"
-                ).value,
-
-            urgencia:
-                document.getElementById(
-                    "urgencia"
-                ).value,
-
-            tiempoEstimado:
-                tiempoEstimado
-        };
-
-        await fetch(
-            "http://localhost:3000/tickets",
+        const response = await fetch(
+            `${API_URL}/login`,
             {
                 method: "POST",
 
                 headers: {
-                    "Content-Type":
-                        "application/json",
-
-                    "Authorization":
-                        "token-seguro-123"
+                    "Content-Type": "application/json"
                 },
 
-                body: JSON.stringify(
-                    nuevoTicket
-                )
+                body: JSON.stringify({
+                    usuario,
+                    password
+                })
             }
         );
 
-        formulario.reset();
+        const data = await response.json();
 
-        cargarTickets();
+        if (!response.ok) {
+
+            mensaje.innerText =
+                data.error;
+
+            mensaje.style.color = "red";
+
+            return;
+        }
+
+        token = data.token;
+
+        mensaje.innerHTML = `
+            ✅ Bienvenida ${usuario}<br>
+            Sesión iniciada correctamente
+        `;
+
+        mensaje.style.color = "green";
+
+        // OCULTAR LOGIN
+
+        document.getElementById(
+            "usuario"
+        ).style.display = "none";
+
+        document.getElementById(
+            "password"
+        ).style.display = "none";
+
+        document.getElementById(
+            "btnLogin"
+        ).style.display = "none";
+
+        // BOTON CERRAR SESION
+
+        const botonLogout =
+            document.createElement("button");
+
+        botonLogout.innerText =
+            "Cerrar Sesión";
+
+        botonLogout.style.marginTop =
+            "15px";
+
+        botonLogout.onclick =
+            cerrarSesion;
+
+        mensaje.appendChild(
+            document.createElement("br")
+        );
+
+        mensaje.appendChild(
+            botonLogout
+        );
+
+    } catch (error) {
+
+        mensaje.innerText =
+            "Error de conexión";
+
+        mensaje.style.color = "red";
     }
-);
+}
 
-// INICIAR
+// ======================
+// CERRAR SESION
+// ======================
+
+function cerrarSesion() {
+
+    token = "";
+
+    document.getElementById(
+        "usuario"
+    ).style.display = "block";
+
+    document.getElementById(
+        "password"
+    ).style.display = "block";
+
+    document.getElementById(
+        "btnLogin"
+    ).style.display = "block";
+
+    document.getElementById(
+        "usuario"
+    ).value = "";
+
+    document.getElementById(
+        "password"
+    ).value = "";
+
+    document.getElementById(
+        "mensajeLogin"
+    ).innerHTML = "";
+
+    alert("Sesión cerrada correctamente");
+}
+
+// ======================
+// CREAR TICKET
+// ======================
+
+document
+    .getElementById("ticketForm")
+    .addEventListener("submit", crearTicket);
+
+async function crearTicket(event) {
+
+    event.preventDefault();
+
+    if (!token) {
+
+        alert(
+            "Debes iniciar sesión primero"
+        );
+
+        return;
+    }
+
+    const horas =
+        parseInt(
+            document.getElementById("horas").value
+        );
+
+    const minutos =
+        parseInt(
+            document.getElementById("minutos").value
+        );
+
+    // VALIDACIONES
+
+    if (horas < 0 || minutos < 0) {
+
+        alert(
+            "El tiempo no puede ser negativo"
+        );
+
+        return;
+    }
+
+    if (minutos > 59) {
+
+        alert(
+            "Los minutos no pueden superar 59"
+        );
+
+        return;
+    }
+
+    if (horas > 48) {
+
+        alert(
+            "Las horas no pueden superar 48"
+        );
+
+        return;
+    }
+
+    const tiempoEstimado =
+        horas + (minutos / 60);
+
+    const ticket = {
+
+        nombreSolicitante:
+            document.getElementById(
+                "nombreSolicitante"
+            ).value,
+
+        correo:
+            document.getElementById(
+                "correo"
+            ).value,
+
+        categoria:
+            document.getElementById(
+                "categoria"
+            ).value,
+
+        descripcion:
+            document.getElementById(
+                "descripcion"
+            ).value,
+
+        impacto:
+            document.getElementById(
+                "impacto"
+            ).value,
+
+        urgencia:
+            document.getElementById(
+                "urgencia"
+            ).value,
+
+        tiempoEstimado
+    };
+
+    const response = await fetch(
+        `${API_URL}/tickets`,
+        {
+            method: "POST",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json",
+
+                "Authorization":
+                    token
+            },
+
+            body: JSON.stringify(ticket)
+        }
+    );
+
+    await response.json();
+
+    alert(
+        "✅ Ticket creado correctamente"
+    );
+
+    cargarTickets();
+
+    document
+        .getElementById("ticketForm")
+        .reset();
+}
+
+// ======================
+// CARGAR TICKETS
+// ======================
+
+async function cargarTickets() {
+
+    const response = await fetch(
+        `${API_URL}/tickets`
+    );
+
+    const tickets = await response.json();
+
+    const lista =
+        document.getElementById(
+            "listaTickets"
+        );
+
+    lista.innerHTML = "";
+
+    tickets.forEach(ticket => {
+
+        const div =
+            document.createElement("div");
+
+        let clasePrioridad =
+            "prioridad-baja";
+
+        if (
+            ticket.prioridad === "Media"
+        ) {
+            clasePrioridad =
+                "prioridad-media";
+        }
+
+        if (
+            ticket.prioridad === "Alta"
+        ) {
+            clasePrioridad =
+                "prioridad-alta";
+        }
+
+        if (
+            ticket.prioridad === "Crítica"
+        ) {
+            clasePrioridad =
+                "prioridad-critica";
+        }
+
+        const fecha =
+            new Date(
+                ticket.fechaCreacion
+            );
+
+        div.className =
+            `ticket ${clasePrioridad}`;
+
+        div.innerHTML = `
+
+            <h3>
+                ${ticket.nombreSolicitante}
+            </h3>
+
+            <p>
+                <strong>Categoría:</strong>
+                ${ticket.categoria}
+            </p>
+
+            <p>
+                <strong>Estado:</strong>
+                ${ticket.estado}
+            </p>
+
+            <p>
+                <strong>Prioridad:</strong>
+                ${ticket.prioridad}
+            </p>
+
+            <p>
+                <strong>Fecha ingreso:</strong>
+                ${fecha.toLocaleString()}
+            </p>
+
+            <button onclick="resolverTicket(${ticket.id})">
+                Resolver
+            </button>
+
+            <button onclick="eliminarTicket(${ticket.id})">
+                Eliminar
+            </button>
+        `;
+
+        lista.appendChild(div);
+    });
+}
+
+// ======================
+// RESOLVER TICKET
+// ======================
+
+async function resolverTicket(id) {
+
+    if (!token) {
+
+        alert(
+            "Debes iniciar sesión"
+        );
+
+        return;
+    }
+
+    await fetch(
+        `${API_URL}/tickets/${id}`,
+        {
+            method: "PUT",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json",
+
+                "Authorization":
+                    token
+            },
+
+            body: JSON.stringify({
+                estado: "resuelto"
+            })
+        }
+    );
+
+    alert(
+        "✅ Ticket resuelto correctamente"
+    );
+
+    cargarTickets();
+}
+
+// ======================
+// ELIMINAR TICKET
+// ======================
+
+async function eliminarTicket(id) {
+
+    if (!token) {
+
+        alert(
+            "Debes iniciar sesión"
+        );
+
+        return;
+    }
+
+    const confirmar =
+        confirm(
+            "¿Seguro que deseas eliminar este ticket?"
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    await fetch(
+        `${API_URL}/tickets/${id}`,
+        {
+            method: "DELETE",
+
+            headers: {
+                "Authorization": token
+            }
+        }
+    );
+
+    alert(
+        "🗑️ Ticket eliminado correctamente"
+    );
+
+    cargarTickets();
+}
+
+// ======================
+// INICIAR APP
+// ======================
+
 cargarTickets();

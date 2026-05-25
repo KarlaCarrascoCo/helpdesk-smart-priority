@@ -30,15 +30,15 @@ body {
 
 .container {
 
-    max-width: 850px;
+    max-width: 900px;
 
     margin: auto;
 
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.88);
 
     backdrop-filter: blur(10px);
 
-    padding: 30px;
+    padding: 35px;
 
     border-radius: 20px;
 
@@ -52,14 +52,33 @@ h1 {
 
     color: #1e3a8a;
 
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
-    font-size: 42px;
+    font-size: 46px;
 }
 
 h2 {
 
     color: #1e3a8a;
+}
+
+.login-box {
+
+    background: #eef4ff;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    margin-bottom: 25px;
+
+    border-left: 6px solid #2563eb;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
 }
 
 .info-box {
@@ -196,7 +215,7 @@ button:hover {
 
 .ticket {
 
-    padding: 18px;
+    padding: 20px;
 
     margin-top: 18px;
 
@@ -242,4 +261,22 @@ button:hover {
     margin-top: 0;
 
     font-size: 28px;
+}
+
+.ticket button {
+
+    margin-right: 10px;
+
+    margin-top: 10px;
+
+    padding: 10px 14px;
+
+    font-size: 14px;
+}
+
+#mensajeLogin {
+
+    font-weight: bold;
+
+    margin-top: 5px;
 }

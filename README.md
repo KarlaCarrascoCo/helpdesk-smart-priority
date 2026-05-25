@@ -21,15 +21,18 @@ Sistema web de gestión de tickets desarrollado con Node.js, Express y JavaScrip
 # Tecnologías utilizadas
 
 ## Backend
+
 - Node.js
 - Express.js
 
 ## Frontend
+
 - HTML5
 - CSS3
 - JavaScript
 
 ## Herramientas
+
 - Postman
 - GitHub
 - VS Code
@@ -41,10 +44,10 @@ Sistema web de gestión de tickets desarrollado con Node.js, Express y JavaScrip
 ```bash
 src/
 │
+├── routes/
 ├── controllers/
 ├── services/
-├── routes/
-├── middlewares/
 ├── data/
+├── middlewares/
 ├── public/
 └── app.js
