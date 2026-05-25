@@ -51,3 +51,7 @@ src/
 ├── middlewares/
 ├── public/
 └── app.js
+
+---
+
+Proyecto desarrollado para la asignatura Programación Web - IP Santo Tomás.

@@ -1,18 +1,5 @@
 [
   {
-    "id": 2,
-    "nombreSolicitante": "Pablo Marmol",
-    "correo": "pablo@correo.cl",
-    "categoria": "cuenta",
-    "descripcion": "problemas para ingresar",
-    "impacto": "medio",
-    "urgencia": "media",
-    "tiempoEstimado": 3,
-    "estado": "pendiente",
-    "prioridad": "Media",
-    "fechaCreacion": "2026-05-24T23:13:06.943Z"
-  },
-  {
     "id": 3,
     "nombreSolicitante": "Soporte Oficina",
     "correo": "soporte@empresa.cl",
@@ -21,8 +8,34 @@
     "impacto": "alto",
     "urgencia": "alta",
     "tiempoEstimado": 2.5,
-    "estado": "pendiente",
+    "estado": "resuelto",
     "prioridad": "Alta",
     "fechaCreacion": "2026-05-25T01:34:58.329Z"
+  },
+  {
+    "id": 3,
+    "nombreSolicitante": "Eliminar Test",
+    "correo": "test@empresa.com",
+    "categoria": "hardware",
+    "descripcion": "Prueba eliminacion",
+    "impacto": "medio",
+    "urgencia": "media",
+    "tiempoEstimado": 2,
+    "estado": "pendiente",
+    "prioridad": "Media",
+    "fechaCreacion": "2026-05-25T03:00:03.967Z"
+  },
+  {
+    "id": 3,
+    "nombreSolicitante": "PUT Test",
+    "correo": "put@empresa.com",
+    "categoria": "software",
+    "descripcion": "Actualizar ticket",
+    "impacto": "alto",
+    "urgencia": "alta",
+    "tiempoEstimado": 3,
+    "estado": "pendiente",
+    "prioridad": "Alta",
+    "fechaCreacion": "2026-05-25T03:22:41.711Z"
   }
 ]
