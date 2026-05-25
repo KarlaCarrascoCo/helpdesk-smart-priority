@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "nombreSolicitante": "Karla Carrasco",
+    "correo": "karla@gmail.com",
+    "categoria": "red",
+    "descripcion": "Internet caído",
+    "impacto": "alto",
+    "urgencia": "alta",
+    "tiempoEstimado": 5,
+    "estado": "pendiente",
+    "prioridad": "Crítica",
+    "fechaCreacion": "2026-05-24T23:03:03.446Z"
+  },
+  {
+    "id": 2,
+    "nombreSolicitante": "Pablo Marmol",
+    "correo": "pablo@correo.cl",
+    "categoria": "cuenta",
+    "descripcion": "problemas para ingresar",
+    "impacto": "medio",
+    "urgencia": "media",
+    "tiempoEstimado": 3,
+    "estado": "pendiente",
+    "prioridad": "Media",
+    "fechaCreacion": "2026-05-24T23:13:06.943Z"
+  },
+  {
+    "id": 3,
+    "nombreSolicitante": "Marley Bob",
+    "correo": "marley@correo.cl",
+    "categoria": "impresora",
+    "descripcion": "sin tinta",
+    "impacto": "alto",
+    "urgencia": "alta",
+    "tiempoEstimado": 1,
+    "estado": "pendiente",
+    "prioridad": "Alta",
+    "fechaCreacion": "2026-05-24T23:20:53.355Z"
+  }
+]

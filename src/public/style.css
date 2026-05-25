@@ -1,0 +1,245 @@
+body {
+
+    font-family: Arial, sans-serif;
+
+    margin: 0;
+
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #93c5fd,
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at bottom right,
+            #c4b5fd,
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #e0f2fe
+        );
+
+    min-height: 100vh;
+}
+
+.container {
+
+    max-width: 850px;
+
+    margin: auto;
+
+    background: rgba(255,255,255,0.85);
+
+    backdrop-filter: blur(10px);
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.15);
+}
+
+h1 {
+
+    text-align: center;
+
+    color: #1e3a8a;
+
+    margin-bottom: 20px;
+
+    font-size: 42px;
+}
+
+h2 {
+
+    color: #1e3a8a;
+}
+
+.info-box {
+
+    background: #eef4ff;
+
+    border-left: 6px solid #2563eb;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.leyenda {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.leyenda-item {
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    color: white;
+}
+
+.verde {
+
+    background: #22c55e;
+}
+
+.amarillo {
+
+    background: #facc15;
+
+    color: black;
+}
+
+.naranja {
+
+    background: #fb923c;
+}
+
+.rojo {
+
+    background: #ef4444;
+}
+
+form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+label {
+
+    font-weight: bold;
+
+    color: #1e293b;
+}
+
+input,
+textarea,
+select {
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    border: 1px solid #cbd5e1;
+
+    font-size: 15px;
+
+    background: white;
+}
+
+textarea {
+
+    resize: vertical;
+}
+
+.tiempo-container {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+button {
+
+    background: linear-gradient(
+        90deg,
+        #3b82f6,
+        #8b5cf6
+    );
+
+    color: white;
+
+    border: none;
+
+    padding: 14px;
+
+    font-size: 16px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    font-weight: bold;
+}
+
+button:hover {
+
+    transform: scale(1.02);
+
+    opacity: 0.95;
+}
+
+.ticket {
+
+    padding: 18px;
+
+    margin-top: 18px;
+
+    border-radius: 16px;
+
+    color: white;
+
+    box-shadow:
+        0px 4px 10px rgba(0,0,0,0.15);
+
+    transition: 0.3s;
+}
+
+.ticket:hover {
+
+    transform: translateY(-3px);
+}
+
+.prioridad-baja {
+
+    background: #22c55e;
+}
+
+.prioridad-media {
+
+    background: #facc15;
+
+    color: black;
+}
+
+.prioridad-alta {
+
+    background: #fb923c;
+}
+
+.prioridad-critica {
+
+    background: #ef4444;
+}
+
+.ticket h3 {
+
+    margin-top: 0;
+
+    font-size: 28px;
+}

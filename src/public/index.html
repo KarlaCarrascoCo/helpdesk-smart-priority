@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HelpDesk Smart Priority</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>HelpDesk Smart Priority</h1>
+
+        <div class="info-box">
+
+            <h3>
+                Sistema Inteligente de Prioridades
+            </h3>
+
+            <p>
+                La prioridad del ticket se calcula
+                automáticamente según:
+            </p>
+
+            <ul>
+
+                <li>
+                    Impacto del problema
+                </li>
+
+                <li>
+                    Urgencia del problema
+                </li>
+
+                <li>
+                    Categoría
+                </li>
+
+                <li>
+                    Tiempo estimado
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="leyenda">
+
+            <div class="leyenda-item verde">
+                🟢 Baja
+            </div>
+
+            <div class="leyenda-item amarillo">
+                🟡 Media
+            </div>
+
+            <div class="leyenda-item naranja">
+                🟠 Alta
+            </div>
+
+            <div class="leyenda-item rojo">
+                🔴 Crítica
+            </div>
+
+        </div>
+
+        <form id="ticketForm">
+
+            <label>
+                Nombre solicitante
+            </label>
+
+            <input
+                type="text"
+                id="nombreSolicitante"
+                placeholder="Nombre completo"
+                required
+            >
+
+            <label>
+                Correo electrónico
+            </label>
+
+            <input
+                type="email"
+                id="correo"
+                placeholder="correo@empresa.com"
+                required
+            >
+
+            <label>
+                Categoría del problema
+            </label>
+
+            <select id="categoria">
+
+                <option value="red">
+                    Red / Internet
+                </option>
+
+                <option value="hardware">
+                    Hardware
+                </option>
+
+                <option value="software">
+                    Software
+                </option>
+
+                <option value="cuenta">
+                    Cuenta / Acceso
+                </option>
+
+                <option value="impresora">
+                    Impresora
+                </option>
+
+            </select>
+
+            <label>
+                Descripción del problema
+            </label>
+
+            <textarea
+                id="descripcion"
+                placeholder="Describe el problema"
+                required
+            ></textarea>
+
+            <label>
+                Impacto del problema
+            </label>
+
+            <select id="impacto">
+
+                <option value="bajo">
+                    Bajo (afecta poco)
+                </option>
+
+                <option value="medio">
+                    Medio
+                </option>
+
+                <option value="alto">
+                    Alto (afecta mucho)
+                </option>
+
+            </select>
+
+            <label>
+                Urgencia del problema
+            </label>
+
+            <select id="urgencia">
+
+                <option value="baja">
+                    Baja
+                </option>
+
+                <option value="media">
+                    Media
+                </option>
+
+                <option value="alta">
+                    Alta
+                </option>
+
+            </select>
+
+            <label>
+                Tiempo estimado de solución
+            </label>
+
+            <div class="tiempo-container">
+
+                <input
+                    type="number"
+                    id="horas"
+                    placeholder="Horas"
+                    min="0"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="minutos"
+                    placeholder="Minutos"
+                    min="0"
+                    max="59"
+                    required
+                >
+
+            </div>
+
+            <button type="submit">
+                Crear Ticket
+            </button>
+
+        </form>
+
+        <h2>Tickets Registrados</h2>
+
+        <div id="listaTickets"></div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
