@@ -37,5 +37,18 @@
     "estado": "pendiente",
     "prioridad": "Alta",
     "fechaCreacion": "2026-05-25T03:22:41.711Z"
+  },
+  {
+    "id": 4,
+    "nombreSolicitante": "Leslie",
+    "correo": "leslie@mail.com",
+    "categoria": "cuenta",
+    "descripcion": "No puedo acceder a mi correo institucional",
+    "impacto": "medio",
+    "urgencia": "media",
+    "tiempoEstimado": 2,
+    "estado": "resuelto",
+    "prioridad": "Media",
+    "fechaCreacion": "2026-05-25T23:48:36.920Z"
   }
 ]
