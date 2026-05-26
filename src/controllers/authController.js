@@ -1,23 +1,45 @@
-function login(req, res) {
+exports.login = (req, res) => {
 
     const { usuario, password } = req.body;
 
-    // VALIDAR USUARIO
-    if (
-        usuario === "karla" &&
-        password === "1234"
-    ) {
+    const usuarios = [
 
-        return res.status(200).json({
-            token: "token-seguro-123"
+        {
+            usuario: "karla",
+            password: "1234",
+            token: "token-karla"
+        },
+
+        {
+            usuario: "admin",
+            password: "admin123",
+            token: "token-admin"
+        }
+    ];
+
+    const usuarioEncontrado = usuarios.find(
+
+        u =>
+
+            u.usuario === usuario &&
+
+            u.password === password
+    );
+
+    if (!usuarioEncontrado) {
+
+        return res.status(401).json({
+
+            error: "Credenciales incorrectas"
         });
     }
 
-    res.status(401).json({
-        error: "Credenciales incorrectas"
-    });
-}
+    res.json({
 
-module.exports = {
-    login
+        mensaje: "Login exitoso",
+
+        token: usuarioEncontrado.token,
+
+        usuario: usuarioEncontrado.usuario
+    });
 };

@@ -1,15 +1,14 @@
-function verificarToken(req, res, next) {
+module.exports = (req, res, next) => {
 
     const token = req.headers.authorization;
 
-    if (token !== "token-seguro-123") {
+    if (!token) {
 
         return res.status(401).json({
+
             error: "Acceso no autorizado"
         });
     }
 
     next();
-}
-
-module.exports = verificarToken;
+};

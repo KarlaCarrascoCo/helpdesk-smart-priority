@@ -24,27 +24,34 @@
 
         <!-- LOGIN -->
 
-        <div class="login-box">
+        <div
+            class="login-box"
+            id="loginContainer"
+        >
 
             <h2>Inicio de Sesión</h2>
 
-            <input
-                type="text"
-                id="usuario"
-                placeholder="Usuario"
-            >
+            <form id="loginForm">
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Contraseña"
-            >
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Usuario"
+                    required
+                >
 
-            <button id="btnLogin">
-                Iniciar Sesión
-            </button>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Contraseña"
+                    required
+                >
 
-            <p id="mensajeLogin"></p>
+                <button type="submit">
+                    Iniciar Sesión
+                </button>
+
+            </form>
 
         </div>
 
@@ -168,7 +175,7 @@
             <select id="impacto">
 
                 <option value="bajo">
-                    Bajo (afecta poco)
+                    Bajo
                 </option>
 
                 <option value="medio">
@@ -176,7 +183,7 @@
                 </option>
 
                 <option value="alto">
-                    Alto (afecta mucho)
+                    Alto
                 </option>
 
             </select>
@@ -236,7 +243,7 @@
 
         <h2>Tickets Registrados</h2>
 
-        <div id="listaTickets"></div>
+        <div id="ticketsContainer"></div>
 
     </div>
 

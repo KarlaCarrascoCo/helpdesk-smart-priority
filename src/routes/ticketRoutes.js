@@ -4,29 +4,25 @@ const router = express.Router();
 
 const ticketController = require("../controllers/ticketController");
 
-const verificarToken = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-// GET TODOS
-router.get("/", ticketController.listarTickets);
-
-// GET POR ID
-router.get("/:id", ticketController.obtenerTicket);
+router.get("/", ticketController.obtenerTickets);
 
 router.post(
     "/",
-    verificarToken,
+    authMiddleware,
     ticketController.crearTicket
 );
 
 router.put(
     "/:id",
-    verificarToken,
+    authMiddleware,
     ticketController.actualizarTicket
 );
 
 router.delete(
     "/:id",
-    verificarToken,
+    authMiddleware,
     ticketController.eliminarTicket
 );
 

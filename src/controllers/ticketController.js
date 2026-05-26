@@ -1,121 +1,119 @@
 const ticketService = require("../services/ticketService");
 
-// VALIDACIONES
-function validarTicket(data) {
+const priorityService = require("../services/priorityService");
 
-    if (
-        !data.nombreSolicitante ||
-        !data.correo ||
-        !data.categoria ||
-        !data.descripcion ||
-        !data.impacto ||
-        !data.urgencia ||
-        !data.tiempoEstimado
-    ) {
-        return "Todos los campos son obligatorios";
-    }
 
-    // VALIDAR CORREO
-    const regexCorreo = /\S+@\S+\.\S+/;
+// GET
 
-    if (!regexCorreo.test(data.correo)) {
-        return "Correo inválido";
-    }
-
-    // VALIDAR IMPACTO
-    const impactosValidos = ["bajo", "medio", "alto"];
-
-    if (!impactosValidos.includes(data.impacto)) {
-        return "Impacto inválido";
-    }
-
-    // VALIDAR URGENCIA
-    const urgenciasValidas = ["baja", "media", "alta"];
-
-    if (!urgenciasValidas.includes(data.urgencia)) {
-        return "Urgencia inválida";
-    }
-
-    return null;
-}
-
-// LISTAR
-function listarTickets(req, res) {
+exports.obtenerTickets = (req, res) => {
 
     const tickets = ticketService.obtenerTickets();
 
-    res.status(200).json(tickets);
-}
+    res.json(tickets);
+};
 
-// CREAR
-function crearTicket(req, res) {
 
-    const error = validarTicket(req.body);
+// POST
 
-    if (error) {
+exports.crearTicket = (req, res) => {
+
+    const {
+
+        nombreSolicitante,
+        correo,
+        categoria,
+        descripcion,
+        impacto,
+        urgencia,
+        tiempoEstimado
+
+    } = req.body;
+
+
+    if (
+
+        !nombreSolicitante ||
+
+        !correo ||
+
+        !categoria ||
+
+        !descripcion ||
+
+        !impacto ||
+
+        !urgencia ||
+
+        tiempoEstimado === undefined
+
+    ) {
+
         return res.status(400).json({
-            error: error
+
+            error: "Todos los campos son obligatorios"
         });
     }
 
-    const nuevoTicket = ticketService.crearTicket(req.body);
+
+    const prioridad = priorityService.calcularPrioridad(
+
+        impacto,
+        urgencia,
+        categoria,
+        tiempoEstimado
+    );
+
+
+    const nuevoTicket = ticketService.crearTicket({
+
+        nombreSolicitante,
+        correo,
+        categoria,
+        descripcion,
+        impacto,
+        urgencia,
+        tiempoEstimado,
+        prioridad
+    });
 
     res.status(201).json(nuevoTicket);
-}
+};
 
-// OBTENER POR ID
-function obtenerTicket(req, res) {
 
-    const ticket = ticketService.obtenerTicketPorId(req.params.id);
+// PUT
 
-    if (!ticket) {
-        return res.status(404).json({
-            error: "Ticket no encontrado"
-        });
-    }
+exports.actualizarTicket = (req, res) => {
 
-    res.status(200).json(ticket);
-}
-
-// ACTUALIZAR
-function actualizarTicket(req, res) {
+    const { id } = req.params;
 
     const ticketActualizado = ticketService.actualizarTicket(
-        req.params.id,
+
+        id,
         req.body
     );
 
     if (!ticketActualizado) {
+
         return res.status(404).json({
+
             error: "Ticket no encontrado"
         });
     }
 
-    res.status(200).json(ticketActualizado);
-}
+    res.json(ticketActualizado);
+};
 
-// ELIMINAR
-function eliminarTicket(req, res) {
 
-    const eliminado = ticketService.eliminarTicket(
-        req.params.id
-    );
+// DELETE
 
-    if (!eliminado) {
-        return res.status(404).json({
-            error: "Ticket no encontrado"
-        });
-    }
+exports.eliminarTicket = (req, res) => {
 
-    res.status(200).json({
+    const { id } = req.params;
+
+    ticketService.eliminarTicket(id);
+
+    res.json({
+
         mensaje: "Ticket eliminado correctamente"
     });
-}
-
-module.exports = {
-    listarTickets,
-    crearTicket,
-    obtenerTicket,
-    actualizarTicket,
-    eliminarTicket
 };

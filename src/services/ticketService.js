@@ -1,44 +1,88 @@
 const fs = require("fs");
+
 const path = require("path");
 
-const calcularPrioridad = require("./priorityService");
+const priorityService = require("./priorityService");
 
-const rutaArchivo = path.join(__dirname, "../data/tickets.json");
+const rutaTickets = path.join(
+    __dirname,
+    "../data/tickets.json"
+);
 
-// LEER TICKETS
+
+// ============================
+// OBTENER TICKETS
+// ============================
+
 function obtenerTickets() {
 
-    const data = fs.readFileSync(rutaArchivo);
+    try {
 
-    return JSON.parse(data);
+        const data = fs.readFileSync(
+            rutaTickets,
+            "utf-8"
+        );
+
+        return JSON.parse(data);
+
+    } catch {
+
+        return [];
+    }
 }
 
+
+// ============================
 // GUARDAR TICKETS
+// ============================
+
 function guardarTickets(tickets) {
 
     fs.writeFileSync(
-        rutaArchivo,
-        JSON.stringify(tickets, null, 2)
+
+        rutaTickets,
+
+        JSON.stringify(
+            tickets,
+            null,
+            2
+        )
     );
 }
 
+
+// ============================
 // CREAR TICKET
+// ============================
+
 function crearTicket(ticket) {
 
     const tickets = obtenerTickets();
 
+
+    // ID UNICO
+
+    const nuevoId =
+
+        tickets.length > 0
+
+            ? Math.max(
+                ...tickets.map(t => t.id)
+            ) + 1
+
+            : 1;
+
+
     const nuevoTicket = {
-        id: tickets.length + 1,
-        nombreSolicitante: ticket.nombreSolicitante,
-        correo: ticket.correo,
-        categoria: ticket.categoria,
-        descripcion: ticket.descripcion,
-        impacto: ticket.impacto,
-        urgencia: ticket.urgencia,
-        tiempoEstimado: ticket.tiempoEstimado,
+
+        id: nuevoId,
+
+        ...ticket,
+
         estado: "pendiente",
-        prioridad: calcularPrioridad(ticket),
-        fechaCreacion: new Date()
+
+        fechaCreacion:
+            new Date().toISOString()
     };
 
     tickets.push(nuevoTicket);
@@ -48,57 +92,80 @@ function crearTicket(ticket) {
     return nuevoTicket;
 }
 
-// OBTENER POR ID
-function obtenerTicketPorId(id) {
 
-    const tickets = obtenerTickets();
-
-    return tickets.find(ticket => ticket.id == id);
-}
-
+// ============================
 // ACTUALIZAR TICKET
-function actualizarTicket(id, datosActualizados) {
+// ============================
+
+function actualizarTicket(id, datos) {
 
     const tickets = obtenerTickets();
 
-    const index = tickets.findIndex(ticket => ticket.id == id);
+    const index = tickets.findIndex(
+
+        t => t.id == id
+    );
 
     if (index === -1) {
+
         return null;
     }
 
+
     tickets[index] = {
+
         ...tickets[index],
-        ...datosActualizados
+
+        ...datos
     };
+
+
+    // RECALCULAR PRIORIDAD
+
+    tickets[index].prioridad =
+
+        priorityService.calcularPrioridad(
+
+            tickets[index].impacto,
+
+            tickets[index].urgencia,
+
+            tickets[index].categoria,
+
+            tickets[index].tiempoEstimado
+        );
+
 
     guardarTickets(tickets);
 
     return tickets[index];
 }
 
+
+// ============================
 // ELIMINAR TICKET
+// ============================
+
 function eliminarTicket(id) {
 
     const tickets = obtenerTickets();
 
     const nuevosTickets = tickets.filter(
-        ticket => ticket.id != id
+
+        t => t.id != id
     );
 
-    if (tickets.length === nuevosTickets.length) {
-        return false;
-    }
-
     guardarTickets(nuevosTickets);
-
-    return true;
 }
 
+
 module.exports = {
+
     obtenerTickets,
+
     crearTicket,
-    obtenerTicketPorId,
+
     actualizarTicket,
+
     eliminarTicket
 };

@@ -1,36 +1,56 @@
-function calcularPrioridad(ticket) {
+exports.calcularPrioridad = (
 
-    let puntaje = 0;
+    impacto,
+    urgencia,
+    categoria,
+    tiempoEstimado
+
+) => {
+
+    let puntos = 0;
+
 
     // IMPACTO
-    if (ticket.impacto === "bajo") puntaje += 1;
-    if (ticket.impacto === "medio") puntaje += 2;
-    if (ticket.impacto === "alto") puntaje += 3;
+
+    if (impacto === "alto") puntos += 3;
+
+    if (impacto === "medio") puntos += 2;
+
+    if (impacto === "bajo") puntos += 1;
+
 
     // URGENCIA
-    if (ticket.urgencia === "baja") puntaje += 1;
-    if (ticket.urgencia === "media") puntaje += 2;
-    if (ticket.urgencia === "alta") puntaje += 3;
 
-    // BONUS CATEGORIA
-    if (
-        ticket.categoria === "red" ||
-        ticket.categoria === "cuenta"
-    ) {
-        puntaje += 1;
-    }
+    if (urgencia === "alta") puntos += 3;
 
-    // BONUS TIEMPO
-    if (ticket.tiempoEstimado > 4) {
-        puntaje += 1;
-    }
+    if (urgencia === "media") puntos += 2;
 
-    // RESULTADO
-    if (puntaje <= 3) return "Baja";
-    if (puntaje <= 5) return "Media";
-    if (puntaje === 6) return "Alta";
+    if (urgencia === "baja") puntos += 1;
 
-    return "Crítica";
-}
 
-module.exports = calcularPrioridad;
+    // CATEGORIA
+
+    if (categoria === "red") puntos += 2;
+
+    if (categoria === "hardware") puntos += 2;
+
+
+    // TIEMPO
+
+    if (tiempoEstimado >= 4) puntos += 3;
+
+    else if (tiempoEstimado >= 2) puntos += 2;
+
+    else puntos += 1;
+
+
+    // PRIORIDAD
+
+    if (puntos >= 10) return "Crítica";
+
+    if (puntos >= 8) return "Alta";
+
+    if (puntos >= 5) return "Media";
+
+    return "Baja";
+};
